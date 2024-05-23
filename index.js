@@ -35,6 +35,7 @@ async function run() {
 
     // collection
     const productsCollection = client.db('groceryDb').collection('products');
+    const topBrandsCollection = client.db('groceryDb').collection('topBrands');
 
 
     app.get('/products', async(req, res) => {
@@ -49,6 +50,25 @@ async function run() {
         res.send(result);
     });
 
+    /* Top rated product code
+    app.get("/topRatedProducts", async (req, res) => {
+      try {
+        const topRatedProducts = await productsCollection
+          .find()
+          .sort({ ratings: -1 })
+          .toArray();
+        res.json(topRatedProducts);
+      } catch (error) {
+        console.error("Error fetching top-rated products:", error);
+        res.status(500).json({ message: "Internal server error" });
+      }
+    });
+    ----------------------------- */
+
+    app.get('/topBrands', async(req, res) => {
+      const result = await topBrandsCollection.find().toArray();
+      res.send(result);
+    })
 
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
